@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RemindR</string>
+    <string name="name">Név</string>
+    <string name="password">Jelszó</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="registration">Regisztráció</string>
+    <string name="email">E-mail</string>
+    <string name="password_again">Jelszó újra</string>
+    <string name="cancel">Mégse</string>
+    <string name="child">Gyerek</string>
+    <string name="adult">Felnőtt</string>
+    <string name="guest">Vendég</string>
+</resources>

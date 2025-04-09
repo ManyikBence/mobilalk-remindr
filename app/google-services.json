@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "114755479109",
+    "project_id": "remindr-e2f17",
+    "storage_bucket": "remindr-e2f17.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114755479109:android:bd0491befc018ce34ee52c",
+        "android_client_info": {
+          "package_name": "com.example.remindr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114755479109-rvn9tkfm8igtpljb9jtlmesljfvob659.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.remindr",
+            "certificate_hash": "42538ac328861d8f684a8bf85f2a3b51c34e3f88"
+          }
+        },
+        {
+          "client_id": "114755479109-v7fvnur7nms5kt497rt3h165bdfuq3ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6G37OfopNCZ2OLdAYCWm0Co6VtCuoUko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114755479109-v7fvnur7nms5kt497rt3h165bdfuq3ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
