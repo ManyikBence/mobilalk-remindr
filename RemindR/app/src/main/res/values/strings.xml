@@ -10,4 +10,5 @@
     <string name="child">Gyerek</string>
     <string name="adult">Felnőtt</string>
     <string name="guest">Vendég</string>
+    <string name="countdown">Visszaszámláló</string>
 </resources>
