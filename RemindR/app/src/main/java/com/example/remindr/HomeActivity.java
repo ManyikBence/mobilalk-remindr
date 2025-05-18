@@ -13,6 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +29,6 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     SubscriptionItemAdapter adapter;
     List<SubscriptionItem> subscriptionList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +52,8 @@ public class HomeActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
+        // Lista és adapter egyszeri létrehozása
         subscriptionList = new ArrayList<>();
-        subscriptionList.add(new SubscriptionItem("Netflix", R.drawable.ic_launcher_foreground, getFutureTime(2)));
-        subscriptionList.add(new SubscriptionItem("Jogosítvány", R.drawable.ic_launcher_foreground, getFutureTime(30)));
-        subscriptionList.add(new SubscriptionItem("Edzőterem bérlet", R.drawable.ic_launcher_foreground, getFutureTime(15)));
-
         adapter = new SubscriptionItemAdapter(subscriptionList);
         viewPager.setAdapter(adapter);
 
@@ -61,10 +64,50 @@ public class HomeActivity extends AppCompatActivity {
             page.setScaleY(scale);
             page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
         });
+
+        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, AddSubscriptionActivity.class);
+            startActivity(intent);
+        });
+
+        // Első adatbetöltés
+        loadSubscriptions();
     }
 
-    private long getFutureTime(int daysFromNow) {
-        return System.currentTimeMillis() + daysFromNow * 24L * 60 * 60 * 1000;
+    private void loadSubscriptions() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            finish();
+            return;
+        }
+        String userId = user.getUid();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("subscriptions")
+                .whereEqualTo("userId", userId)
+                .orderBy("expirationDate")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    subscriptionList.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        SubscriptionItem item = doc.toObject(SubscriptionItem.class);
+                        item.setId(doc.getId());
+                        subscriptionList.add(item);
+                    }
+
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Hiba a Firestore lekérdezés során", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadSubscriptions();
     }
 
     @Override
@@ -78,20 +121,16 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_profile) {
-            // Ide jön a profil oldalra navigálás
             Intent intent = new Intent(this, ProfilActivity.class);
             startActivity(intent);
-
             Toast.makeText(this, "Profil kiválasztva", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_logout) {
-            // Kijelentkezés logika
             Toast.makeText(this, "Kijelentkeztél", Toast.LENGTH_SHORT).show();
-            finish(); // vagy visszanavigálás a bejelentkező képernyőre
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 }

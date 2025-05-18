@@ -23,12 +23,17 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp" />
 
-        <ImageView
-            android:id="@+id/itemImageView"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/initialTextView"
+            android:layout_width="200dp"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="100sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/circle_background"
+            android:text="A" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -38,5 +43,27 @@
             android:textSize="25sp"
             android:layout_gravity="center_horizontal"
             android:paddingTop="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/buttonEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Szerkesztés"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Törlés" />
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

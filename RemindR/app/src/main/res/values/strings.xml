@@ -14,4 +14,10 @@
     <string name="profil">Profil</string>
     <string name="settings">Beállítások</string>
     <string name="logout">Kilépés</string>
+    <string name="save">Mentés</string>
+    <string name="no_date">Nincs kiválasztva dátum</string>
+    <string name="date_pick">Lejárati dátum kiválasztása</string>
+    <string name="cost">Ár</string>
+    <string name="sub_name">Előfizetés neve</string>
+    <string name="new_sub">Új előfizetés</string>
 </resources>

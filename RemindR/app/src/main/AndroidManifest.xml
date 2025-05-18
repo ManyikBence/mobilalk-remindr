@@ -13,6 +13,12 @@
         android:theme="@style/Theme.RemindR"
         tools:targetApi="31">
         <activity
+            android:name=".EditSubscriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddSubscriptionActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfilActivity"
             android:exported="false" />
         <activity
