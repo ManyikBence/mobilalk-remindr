@@ -11,4 +11,7 @@
     <string name="adult">Felnőtt</string>
     <string name="guest">Vendég</string>
     <string name="countdown">Visszaszámláló</string>
+    <string name="profil">Profil</string>
+    <string name="settings">Beállítások</string>
+    <string name="logout">Kilépés</string>
 </resources>

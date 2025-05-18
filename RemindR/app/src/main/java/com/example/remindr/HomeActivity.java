@@ -1,9 +1,14 @@
 package com.example.remindr;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,6 +41,9 @@ public class HomeActivity extends AppCompatActivity {
             finish();
         }
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         viewPager = findViewById(R.id.viewPager);
 
         subscriptionList = new ArrayList<>();
@@ -58,4 +66,32 @@ public class HomeActivity extends AppCompatActivity {
     private long getFutureTime(int daysFromNow) {
         return System.currentTimeMillis() + daysFromNow * 24L * 60 * 60 * 1000;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_profile) {
+            // Ide jön a profil oldalra navigálás
+            Intent intent = new Intent(this, ProfilActivity.class);
+            startActivity(intent);
+
+            Toast.makeText(this, "Profil kiválasztva", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_logout) {
+            // Kijelentkezés logika
+            Toast.makeText(this, "Kijelentkeztél", Toast.LENGTH_SHORT).show();
+            finish(); // vagy visszanavigálás a bejelentkező képernyőre
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
