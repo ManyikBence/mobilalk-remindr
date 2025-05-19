@@ -123,11 +123,6 @@ public class HomeActivity extends AppCompatActivity {
         if (id == R.id.action_profile) {
             Intent intent = new Intent(this, ProfilActivity.class);
             startActivity(intent);
-            Toast.makeText(this, "Profil kiválasztva", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_logout) {
-            Toast.makeText(this, "Kijelentkeztél", Toast.LENGTH_SHORT).show();
-            finish();
             return true;
         }
 

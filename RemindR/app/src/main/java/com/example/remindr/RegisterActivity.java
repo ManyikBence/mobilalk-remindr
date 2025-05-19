@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -86,19 +87,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         Log.i(LOG_TAG, "Nev: " + userName + ",  E-mail: " + eMail);
 
-        auth.createUserWithEmailAndPassword(eMail, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    finish();
-                    Toast.makeText(RegisterActivity.this, "Sikeres regisztráció!", Toast.LENGTH_LONG).show();
-                } else if (password.length() < 6) {
-                    Toast.makeText(RegisterActivity.this, "Sikertelen regisztráció: Túl rövid jelszó", Toast.LENGTH_LONG).show();
-                } else{
-                    Toast.makeText(RegisterActivity.this, "Sikertelen regisztráció: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                }
+        auth.createUserWithEmailAndPassword(eMail, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                String userId = auth.getCurrentUser().getUid();
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                // Egyéni felhasználói adatok mentése külön gyűjteménybe
+                UserProfile profile = new UserProfile(userName, accountType);
+                db.collection("users").document(userId).set(profile)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(RegisterActivity.this, "Sikeres regisztráció!", Toast.LENGTH_LONG).show();
+                            finish();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(RegisterActivity.this, "Sikeres regisztráció, de hiba történt az adatok mentésekor", Toast.LENGTH_LONG).show();
+                            finish();
+                        });
+
+            } else if (password.length() < 6) {
+                Toast.makeText(RegisterActivity.this, "Sikertelen regisztráció: Túl rövid jelszó", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(RegisterActivity.this, "Sikertelen regisztráció: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     public void cancel(View view) {
