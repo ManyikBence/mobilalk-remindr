@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +31,8 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     SubscriptionItemAdapter adapter;
     List<SubscriptionItem> subscriptionList;
+    TextView emptyTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         viewPager = findViewById(R.id.viewPager);
+
+        emptyTextView = findViewById(R.id.emptyTextView);
 
         // Lista és adapter egyszeri létrehozása
         subscriptionList = new ArrayList<>();
@@ -98,6 +104,12 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                     adapter.notifyDataSetChanged();
+
+                    if (subscriptionList.isEmpty()) {
+                        emptyTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        emptyTextView.setVisibility(View.GONE);
+                    }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Hiba a Firestore lekérdezés során", Toast.LENGTH_SHORT).show();
